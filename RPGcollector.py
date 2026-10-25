@@ -21,6 +21,8 @@ import configparser
 # 文件名称预设
 #工作路径
 cwpath=os.path.dirname(os.path.abspath(__file__)) #读取文件所在路径
+#工作表名称
+sheet_name = "统计表"
 #读取
 config_path=os.path.join(cwpath,'config.ini')
 data_path=glob.glob(os.path.join(cwpath, '*统计*.xlsx'))[0] #读取表格的名称（允许通配）
@@ -43,7 +45,7 @@ icon_num_perline = int(config['DEFAULT']['icon_num_perline'])  #每行出现的�
 title=config['DEFAULT']['title']     #图片标题
 # 2026.10.25 更新日期改为从Excel中读取，ini文件仅做兜底
 date_wb = load_workbook(data_path, read_only=True, data_only=True)
-date = date_wb['Sheet1']['A2'].value or ('更新日期: ' + config['DEFAULT']['update_date'])
+date = date_wb[sheet_name]['A2'].value or ('更新日期: ' + config['DEFAULT']['update_date'])
 date_wb.close()
 # date='更新日期: '+ config['DEFAULT']['update_date'] 
 # icon_size = [100,100]   #单个图标的宽和高
@@ -88,7 +90,7 @@ def get_dict_from_excel(excel_path=data_path):
     '''
     #文件读取
     workbook=load_workbook(filename=excel_path,data_only=True)  #使用workbook读取xlsx文件的信息
-    worksheet=workbook['Sheet1']
+    worksheet=workbook[sheet_name]
     
     #读取评分所在行列
     found_cells=[]
