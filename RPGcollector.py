@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 Created on Fri Nov  1 21:12:40 2024
+updated on 2026.10.25 修改了更新日期的默认读取方式
 
 @author: 切糕
 
@@ -40,7 +41,11 @@ pic_path=os.path.join(output_folder, pic_name) #输出图像的路径和名称
 icon_size = [int(config['DEFAULT']['icon_size_width']),int(config['DEFAULT']['icon_size_height']) ] #单个图标的宽和高
 icon_num_perline = int(config['DEFAULT']['icon_num_perline'])  #每行出现的图像数量
 title=config['DEFAULT']['title']     #图片标题
-date='更新日期: '+ config['DEFAULT']['update_date'] 
+# 2026.10.25 更新日期改为从Excel中读取，ini文件仅做兜底
+date_wb = load_workbook(data_path, read_only=True, data_only=True)
+date = date_wb['Sheet1']['A2'].value or ('更新日期: ' + config['DEFAULT']['update_date'])
+date_wb.close()
+# date='更新日期: '+ config['DEFAULT']['update_date'] 
 # icon_size = [100,100]   #单个图标的宽和高
 # icon_num_perline = 8    #每行出现的图像数量
 # title='RPG战力榜（个人向）'     #图片标题
